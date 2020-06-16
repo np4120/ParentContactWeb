@@ -6,26 +6,24 @@ namespace ParentContactWeb.models
 {
     public partial class parentcontactdbContext : DbContext
     {
-        public parentcontactdbContext()
-        {
-        }
+       
 
         public parentcontactdbContext(DbContextOptions<parentcontactdbContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Contact> Contact { get; set; }
-        public virtual DbSet<Notes> Notes { get; set; }
-        public virtual DbSet<Parent> Parent { get; set; }
-        public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Note> Notes { get; set; }
+        public virtual DbSet<Parent> Parents { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=EvanNate1010;database=parentcontactdb", x => x.ServerVersion("5.7.30-mysql"));
+              //  optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=EvanNate1010;database=parentcontactdb", x => x.ServerVersion("5.7.30-mysql"));
             }
         }
 
@@ -87,22 +85,19 @@ namespace ParentContactWeb.models
                     .HasCollation("latin1_swedish_ci");
 
                 entity.HasOne(d => d.Parent)
-                    .WithMany(p => p.Contact)
+                    .WithMany(p => p.Contacts)
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_contact_parent_parentID");
 
                 entity.HasOne(d => d.Student)
-                    .WithMany(p => p.Contact)
+                    .WithMany(p => p.Contacts)
                     .HasForeignKey(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<Notes>(entity =>
+            modelBuilder.Entity<Note>(entity =>
             {
-                entity.HasKey(e => e.NoteId)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("notes");
 
                 entity.HasIndex(e => e.ContactId)
@@ -153,8 +148,8 @@ namespace ParentContactWeb.models
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.Student)
-                    .WithOne(p => p.Notes)
-                    .HasForeignKey<Notes>(d => d.StudentId)
+                    .WithOne(p => p.Note)
+                    .HasForeignKey<Note>(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
@@ -201,7 +196,7 @@ namespace ParentContactWeb.models
                     .HasColumnType("int(11)");
 
                 entity.HasOne(d => d.Student)
-                    .WithMany(p => p.Parent)
+                    .WithMany(p => p.Parents)
                     .HasForeignKey(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });

@@ -9,22 +9,23 @@ using ParentContactWeb.models;
 
 namespace ParentContactWeb.Controllers
 {
-    public class StudentsController : Controller
+    public class NotesController : Controller
     {
         private readonly parentcontactdbContext _context;
 
-        public StudentsController(parentcontactdbContext context)
+        public NotesController(parentcontactdbContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Notes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            var parentcontactdbContext = _context.Notes.Include(n => n.Contact).Include(n => n.Student);
+            return View(await parentcontactdbContext.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Notes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,45 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentId == id);
-            if (student == null)
+            var note = await _context.Notes
+                .Include(n => n.Contact)
+                .Include(n => n.Student)
+                .FirstOrDefaultAsync(m => m.NoteId == id);
+            if (note == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(note);
         }
 
-        // GET: Students/Create
+        // GET: Notes/Create
         public IActionResult Create()
         {
+            ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason");
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName");
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Notes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,StudentNo,Usi,FirstName,LastName,Grade,StudentNotes")] Student student)
+        public async Task<IActionResult> Create([Bind("NoteId,ContactId,NoteType,ContactNotes,NoteDate,ParentComments,StudentId")] Note note)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(note);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
+            return View(note);
         }
 
-        // GET: Students/Edit/5
+        // GET: Notes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +79,24 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var note = await _context.Notes.FindAsync(id);
+            if (note == null)
             {
                 return NotFound();
             }
-            return View(student);
+            ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
+            return View(note);
         }
 
-        // POST: Students/Edit/5
+        // POST: Notes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentId,StudentNo,Usi,FirstName,LastName,Grade,StudentNotes")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("NoteId,ContactId,NoteType,ContactNotes,NoteDate,ParentComments,StudentId")] Note note)
         {
-            if (id != student.StudentId)
+            if (id != note.NoteId)
             {
                 return NotFound();
             }
@@ -96,12 +105,12 @@ namespace ParentContactWeb.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(note);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.StudentId))
+                    if (!NoteExists(note.NoteId))
                     {
                         return NotFound();
                     }
@@ -112,10 +121,12 @@ namespace ParentContactWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
+            return View(note);
         }
 
-        // GET: Students/Delete/5
+        // GET: Notes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +134,32 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentId == id);
-            if (student == null)
+            var note = await _context.Notes
+                .Include(n => n.Contact)
+                .Include(n => n.Student)
+                .FirstOrDefaultAsync(m => m.NoteId == id);
+            if (note == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(note);
         }
 
-        // POST: Students/Delete/5
+        // POST: Notes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var note = await _context.Notes.FindAsync(id);
+            _context.Notes.Remove(note);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool NoteExists(int id)
         {
-            return _context.Students.Any(e => e.StudentId == id);
+            return _context.Notes.Any(e => e.NoteId == id);
         }
     }
 }

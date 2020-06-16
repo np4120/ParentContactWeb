@@ -1,0 +1,71 @@
+﻿@model ParentContactWeb.models.Contact
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Contact</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <select asp-for="StudentId" class ="form-control" asp-items="ViewBag.StudentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class ="form-control" asp-items="ViewBag.ParentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactReason" class="control-label"></label>
+                <input asp-for="ContactReason" class="form-control" />
+                <span asp-validation-for="ContactReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TalkingPoints" class="control-label"></label>
+                <input asp-for="TalkingPoints" class="form-control" />
+                <span asp-validation-for="TalkingPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentComments" class="control-label"></label>
+                <input asp-for="ParentComments" class="form-control" />
+                <span asp-validation-for="ParentComments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FollowUpNeeded" class="control-label"></label>
+                <input asp-for="FollowUpNeeded" class="form-control" />
+                <span asp-validation-for="FollowUpNeeded" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactStatus" class="control-label"></label>
+                <input asp-for="ContactStatus" class="form-control" />
+                <span asp-validation-for="ContactStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactMethod" class="control-label"></label>
+                <input asp-for="ContactMethod" class="form-control" />
+                <span asp-validation-for="ContactMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactDate" class="control-label"></label>
+                <input asp-for="ContactDate" class="form-control" />
+                <span asp-validation-for="ContactDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

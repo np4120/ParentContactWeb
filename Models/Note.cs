@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ParentContactWeb.models
 {
-    public partial class Notes
+    public partial class Note
     {
         public int NoteId { get; set; }
         public int ContactId { get; set; }

@@ -9,22 +9,23 @@ using ParentContactWeb.models;
 
 namespace ParentContactWeb.Controllers
 {
-    public class StudentsController : Controller
+    public class ParentsController : Controller
     {
         private readonly parentcontactdbContext _context;
 
-        public StudentsController(parentcontactdbContext context)
+        public ParentsController(parentcontactdbContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Parents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            var parentcontactdbContext = _context.Parents.Include(p => p.Student);
+            return View(await parentcontactdbContext.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Parents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,42 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentId == id);
-            if (student == null)
+            var parent = await _context.Parents
+                .Include(p => p.Student)
+                .FirstOrDefaultAsync(m => m.ParentId == id);
+            if (parent == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(parent);
         }
 
-        // GET: Students/Create
+        // GET: Parents/Create
         public IActionResult Create()
         {
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName");
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Parents/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,StudentNo,Usi,FirstName,LastName,Grade,StudentNotes")] Student student)
+        public async Task<IActionResult> Create([Bind("ParentId,StudentId,FamilyName,FirstName,CellNo,Email")] Parent parent)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(parent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
+            return View(parent);
         }
 
-        // GET: Students/Edit/5
+        // GET: Parents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +76,23 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var parent = await _context.Parents.FindAsync(id);
+            if (parent == null)
             {
                 return NotFound();
             }
-            return View(student);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
+            return View(parent);
         }
 
-        // POST: Students/Edit/5
+        // POST: Parents/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentId,StudentNo,Usi,FirstName,LastName,Grade,StudentNotes")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ParentId,StudentId,FamilyName,FirstName,CellNo,Email")] Parent parent)
         {
-            if (id != student.StudentId)
+            if (id != parent.ParentId)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace ParentContactWeb.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(parent);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.StudentId))
+                    if (!ParentExists(parent.ParentId))
                     {
                         return NotFound();
                     }
@@ -112,10 +117,11 @@ namespace ParentContactWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
+            return View(parent);
         }
 
-        // GET: Students/Delete/5
+        // GET: Parents/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +129,31 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.StudentId == id);
-            if (student == null)
+            var parent = await _context.Parents
+                .Include(p => p.Student)
+                .FirstOrDefaultAsync(m => m.ParentId == id);
+            if (parent == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(parent);
         }
 
-        // POST: Students/Delete/5
+        // POST: Parents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var parent = await _context.Parents.FindAsync(id);
+            _context.Parents.Remove(parent);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool ParentExists(int id)
         {
-            return _context.Students.Any(e => e.StudentId == id);
+            return _context.Parents.Any(e => e.ParentId == id);
         }
     }
 }

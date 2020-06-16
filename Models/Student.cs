@@ -7,8 +7,8 @@ namespace ParentContactWeb.models
     {
         public Student()
         {
-            Contact = new HashSet<Contact>();
-            Parent = new HashSet<Parent>();
+            Contacts = new HashSet<Contact>();
+            Parents = new HashSet<Parent>();
         }
 
         public int StudentId { get; set; }
@@ -19,8 +19,8 @@ namespace ParentContactWeb.models
         public int? Grade { get; set; }
         public string StudentNotes { get; set; }
 
-        public virtual Notes Notes { get; set; }
-        public virtual ICollection<Contact> Contact { get; set; }
-        public virtual ICollection<Parent> Parent { get; set; }
+        public virtual Note Note { get; set; }
+        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual ICollection<Parent> Parents { get; set; }
     }
 }

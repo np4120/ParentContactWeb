@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ParentContactWeb.models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace ParentContactWeb
 {
@@ -24,6 +29,15 @@ namespace ParentContactWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+             services.AddDbContextPool<parentcontactdbContext>(options => options
+               // replace with your connection string
+               .UseMySql("Server=localhost;Database=parentcontactdb;User=root;Password=EvanNate1010;", mySqlOptions => mySqlOptions
+                   // replace with your Server Version and Type
+                   .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
+           ));
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
