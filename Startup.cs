@@ -32,7 +32,7 @@ namespace ParentContactWeb
 
              services.AddDbContextPool<parentcontactdbContext>(options => options
                // replace with your connection string
-               .UseMySql("Server=localhost;Database=parentcontactdb;User=root;Password=EvanNate1010;", mySqlOptions => mySqlOptions
+               .UseMySql(Configuration.GetConnectionString("ParentContactDB"), mySqlOptions => mySqlOptions
                    // replace with your Server Version and Type
                    .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
            ));

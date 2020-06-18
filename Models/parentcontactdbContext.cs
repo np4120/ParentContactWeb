@@ -22,8 +22,7 @@ namespace ParentContactWeb.models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-              //  optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=EvanNate1010;database=parentcontactdb", x => x.ServerVersion("5.7.30-mysql"));
+           
             }
         }
 
@@ -83,6 +82,12 @@ namespace ParentContactWeb.models
                     .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
+               
+                entity.Property(e => e.AssignedTo)
+                    .HasColumnType("varchar(200)")
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+
 
                 entity.HasOne(d => d.Parent)
                     .WithMany(p => p.Contacts)
