@@ -6,7 +6,7 @@ namespace ParentContactWeb.models
 {
     public partial class parentcontactdbContext : DbContext
     {
-       
+        
 
         public parentcontactdbContext(DbContextOptions<parentcontactdbContext> options)
             : base(options)
@@ -22,7 +22,8 @@ namespace ParentContactWeb.models
         {
             if (!optionsBuilder.IsConfigured)
             {
-           
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=EvanNate1010;database=parentcontactdb", x => x.ServerVersion("5.7.30-mysql"));
             }
         }
 
@@ -30,8 +31,6 @@ namespace ParentContactWeb.models
         {
             modelBuilder.Entity<Contact>(entity =>
             {
-                entity.ToTable("contact");
-
                 entity.HasIndex(e => e.ContactId)
                     .HasName("UK_contact_ContactID")
                     .IsUnique();
@@ -42,52 +41,25 @@ namespace ParentContactWeb.models
                 entity.HasIndex(e => e.StudentId)
                     .HasName("IDX_contact_StudentID");
 
-                entity.Property(e => e.ContactId)
-                    .HasColumnName("ContactID")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ContactDate).HasColumnType("datetime");
-
                 entity.Property(e => e.ContactMethod)
-                    .HasColumnType("varchar(20)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.ContactReason)
-                    .IsRequired()
-                    .HasColumnType("varchar(1000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.ContactStatus)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.ParentComments)
-                    .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.ParentId)
-                    .HasColumnName("ParentID")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.StudentId)
-                    .HasColumnName("StudentID")
-                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.TalkingPoints)
-                    .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-               
-                entity.Property(e => e.AssignedTo)
-                    .HasColumnType("varchar(200)")
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
-
 
                 entity.HasOne(d => d.Parent)
                     .WithMany(p => p.Contacts)
@@ -103,8 +75,6 @@ namespace ParentContactWeb.models
 
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.ToTable("notes");
-
                 entity.HasIndex(e => e.ContactId)
                     .HasName("IDX_notes_ContactID");
 
@@ -116,36 +86,17 @@ namespace ParentContactWeb.models
                     .HasName("UK_notes_StudentID")
                     .IsUnique();
 
-                entity.Property(e => e.NoteId)
-                    .HasColumnName("NoteID")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ContactId)
-                    .HasColumnName("ContactID")
-                    .HasColumnType("int(11)");
-
                 entity.Property(e => e.ContactNotes)
-                    .IsRequired()
-                    .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
-                entity.Property(e => e.NoteDate).HasColumnType("datetime");
-
                 entity.Property(e => e.NoteType)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.ParentComments)
-                    .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.StudentId)
-                    .HasColumnName("StudentID")
-                    .HasColumnType("int(11)");
 
                 entity.HasOne(d => d.Contact)
                     .WithMany(p => p.Notes)
@@ -160,8 +111,6 @@ namespace ParentContactWeb.models
 
             modelBuilder.Entity<Parent>(entity =>
             {
-                entity.ToTable("parent");
-
                 entity.HasIndex(e => e.ParentId)
                     .HasName("UK_parent_parentID")
                     .IsUnique();
@@ -169,36 +118,21 @@ namespace ParentContactWeb.models
                 entity.HasIndex(e => e.StudentId)
                     .HasName("IDX_parent_StudentID");
 
-                entity.Property(e => e.ParentId)
-                    .HasColumnName("parentID")
-                    .HasColumnType("int(11)");
-
                 entity.Property(e => e.CellNo)
-                    .HasColumnType("varchar(40)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.Email)
-                    .HasColumnName("email")
-                    .HasColumnType("varchar(40)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.FamilyName)
-                    .IsRequired()
-                    .HasColumnType("varchar(60)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasColumnType("varchar(40)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-
-                entity.Property(e => e.StudentId)
-                    .HasColumnName("StudentID")
-                    .HasColumnType("int(11)");
 
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Parents)
@@ -208,45 +142,27 @@ namespace ParentContactWeb.models
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.ToTable("student");
-
                 entity.HasIndex(e => e.StudentId)
                     .HasName("UK_student_StudentID")
                     .IsUnique();
 
-                entity.Property(e => e.StudentId)
-                    .HasColumnName("StudentID")
-                    .HasColumnType("int(11)");
-
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasColumnType("varchar(40)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
-                entity.Property(e => e.Grade).HasColumnType("int(11)");
-
                 entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasColumnType("varchar(40)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.StudentNo)
-                    .IsRequired()
-                    .HasColumnType("varchar(20)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.StudentNotes)
-                    .HasColumnType("varchar(2000)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
 
                 entity.Property(e => e.Usi)
-                    .IsRequired()
-                    .HasColumnName("USI")
-                    .HasColumnType("varchar(20)")
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
             });
