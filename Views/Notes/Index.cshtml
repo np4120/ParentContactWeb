@@ -9,6 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Students" asp-action="Index">
+<p>
+    <input type="text" name="searchTerm">
+    <input type="submit" value="Search" class="btn btn-default" />
+</p>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -34,32 +41,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoteType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentComments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contact.ContactReason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NoteId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NoteId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NoteId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNotes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentComments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contact.ContactReason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.FirstName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.NoteId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.NoteId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.NoteId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

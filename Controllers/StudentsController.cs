@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParentContactWeb.models;
+using SQLitePCL;
 
 namespace ParentContactWeb.Controllers
 {
@@ -19,9 +20,18 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm)
+
         {
-            return View(await _context.Students.ToListAsync());
+            var students = from s in _context.Students
+                           select s;
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                students = students.Where(s => s.LastName.Contains(searchTerm));
+            }
+
+                  
+            return View(await students.ToListAsync());
         }
 
         // GET: Students/Details/5
