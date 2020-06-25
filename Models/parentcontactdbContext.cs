@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using ParentContactWeb.Models;
 
 namespace ParentContactWeb.models
 {
@@ -17,13 +19,15 @@ namespace ParentContactWeb.models
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Parent> Parents { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<ContactReason> ContactReasons { get; set; }
+        public virtual DbSet<ContactMethod> ContactMethods { get; set; }
+        public virtual DbSet<Staff> Staffs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=EvanNate1010;database=parentcontactdb", x => x.ServerVersion("5.7.30-mysql"));
+
             }
         }
 
@@ -108,6 +112,46 @@ namespace ParentContactWeb.models
                     .HasForeignKey<Note>(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+            modelBuilder.Entity<ContactReason>(entity =>
+            {
+                entity.HasIndex(e => e.CrID)
+                    .HasName("IDX_notes_crID");
+                               
+                entity.Property(e => e.Reason)
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+
+           
+            });
+
+            modelBuilder.Entity<ContactMethod>(entity =>
+            {
+                entity.HasIndex(e => e.CmID)
+                    .HasName("IDX_notes_cmID");
+
+                entity.Property(e => e.Method)
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+
+
+            });
+
+            modelBuilder.Entity<Staff>(entity =>
+            {
+                entity.HasIndex(e => e.StaffId)
+                    .HasName("IDX_Staff_Staffid");
+
+                entity.Property(e => e.FirstName)
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+                entity.Property(e => e.LastName)
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+                entity.Property(e => e.Notes)
+                    .HasCharSet("latin1")
+                    .HasCollation("latin1_swedish_ci");
+            });
+
 
             modelBuilder.Entity<Parent>(entity =>
             {

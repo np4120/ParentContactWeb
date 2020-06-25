@@ -9,8 +9,8 @@ using ParentContactWeb.models;
 namespace ParentContactWeb.Migrations
 {
     [DbContext(typeof(parentcontactdbContext))]
-    [Migration("20200619173323_assignetoaaaandEnums")]
-    partial class assignetoaaaandEnums
+    [Migration("20200625190144_lookups")]
+    partial class lookups
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,48 @@ namespace ParentContactWeb.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("ParentContactWeb.Models.ContactMethod", b =>
+                {
+                    b.Property<int>("CmID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CmID")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Method")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.HasKey("CmID");
+
+                    b.HasIndex("CmID")
+                        .HasName("IDX_notes_cmID");
+
+                    b.ToTable("ContactMethod");
+                });
+
+            modelBuilder.Entity("ParentContactWeb.Models.ContactReason", b =>
+                {
+                    b.Property<int>("CrID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CrID")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.HasKey("CrID");
+
+                    b.HasIndex("CrID")
+                        .HasName("IDX_notes_crID");
+
+                    b.ToTable("ContactReason");
+                });
 
             modelBuilder.Entity("ParentContactWeb.models.Contact", b =>
                 {

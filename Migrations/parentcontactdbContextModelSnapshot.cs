@@ -17,6 +17,80 @@ namespace ParentContactWeb.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("ParentContactWeb.Models.ContactMethod", b =>
+                {
+                    b.Property<int>("CmID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CmID")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Method")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.HasKey("CmID");
+
+                    b.HasIndex("CmID")
+                        .HasName("IDX_notes_cmID");
+
+                    b.ToTable("ContactMethod");
+                });
+
+            modelBuilder.Entity("ParentContactWeb.Models.ContactReason", b =>
+                {
+                    b.Property<int>("CrID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CrID")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.HasKey("CrID");
+
+                    b.HasIndex("CrID")
+                        .HasName("IDX_notes_crID");
+
+                    b.ToTable("ContactReason");
+                });
+
+            modelBuilder.Entity("ParentContactWeb.Models.Staff", b =>
+                {
+                    b.Property<int>("StaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("StaffId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("varchar(100)")
+                        .HasAnnotation("MySql:CharSet", "latin1")
+                        .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
+
+                    b.HasKey("StaffId");
+
+                    b.HasIndex("StaffId")
+                        .HasName("IDX_Staff_Staffid");
+
+                    b.ToTable("Staff");
+                });
+
             modelBuilder.Entity("ParentContactWeb.models.Contact", b =>
                 {
                     b.Property<int>("ContactId")

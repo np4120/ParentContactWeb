@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200624195732_addLookups.cs" />
+    <Compile Remove="Migrations\20200624195732_addLookups.Designer.cs" />
+    <Compile Remove="Migrations\20200624200836_contactlookups.cs" />
+    <Compile Remove="Migrations\20200624200836_contactlookups.Designer.cs" />
+    <Compile Remove="Migrations\20200624201320_contactlk.cs" />
+    <Compile Remove="Migrations\20200624201320_contactlk.Designer.cs" />
+    <Compile Remove="Migrations\20200625184018_test.cs" />
+    <Compile Remove="Migrations\20200625184018_test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.0" />
     <PackageReference Include="Bricelam.EntityFrameworkCore.Pluralizer" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
