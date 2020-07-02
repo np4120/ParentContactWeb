@@ -23,14 +23,11 @@ namespace ParentContactWeb.models
         public DateTime NoteDate { get; set; }
         [Column(TypeName = "varchar(2000)")]
         public string ParentComments { get; set; }
-        [Column("StudentID", TypeName = "int(11)")]
-        public int StudentId { get; set; }
-
+       
         [ForeignKey(nameof(ContactId))]
         [InverseProperty("Notes")]
         public virtual Contact Contact { get; set; }
-        [ForeignKey(nameof(StudentId))]
-        [InverseProperty("Note")]
-        public virtual Student Student { get; set; }
+        
+        
     }
 }

@@ -34,7 +34,7 @@ namespace ParentContactWeb.models
         [Column(TypeName = "varchar(2000)")]
         public string StudentNotes { get; set; }
 
-        [InverseProperty("Student")]
+        
         public virtual Note Note { get; set; }
         [InverseProperty(nameof(Contact.Student))]
         public virtual ICollection<Contact> Contacts { get; set; }

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>71e2a6d7-9a1d-474a-ac02-841a9de1da6a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK" Version="2.3.55.2" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.3.102.67" />
     <PackageReference Include="bootstrap" Version="4.5.0" />
     <PackageReference Include="Bricelam.EntityFrameworkCore.Pluralizer" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>

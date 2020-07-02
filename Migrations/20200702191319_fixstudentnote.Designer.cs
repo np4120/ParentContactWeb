@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParentContactWeb.models;
 
 namespace ParentContactWeb.Migrations
 {
     [DbContext(typeof(parentcontactdbContext))]
-    partial class parentcontactdbContextModelSnapshot : ModelSnapshot
+    [Migration("20200702191319_fixstudentnote")]
+    partial class fixstudentnote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,6 +190,10 @@ namespace ParentContactWeb.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnName("StudentID")
+                        .HasColumnType("int(11)");
+
                     b.HasKey("NoteId");
 
                     b.HasIndex("ContactId")
@@ -196,6 +202,10 @@ namespace ParentContactWeb.Migrations
                     b.HasIndex("NoteId")
                         .IsUnique()
                         .HasName("UK_notes_NoteID");
+
+                    b.HasIndex("StudentId")
+                        .IsUnique()
+                        .HasName("UK_notes_StudentID");
 
                     b.ToTable("notes");
                 });
@@ -268,9 +278,6 @@ namespace ParentContactWeb.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.Property<int?>("NoteId")
-                        .HasColumnType("int(11)");
-
                     b.Property<string>("StudentNo")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
@@ -290,8 +297,6 @@ namespace ParentContactWeb.Migrations
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
                     b.HasKey("StudentId");
-
-                    b.HasIndex("NoteId");
 
                     b.HasIndex("StudentId")
                         .IsUnique()
@@ -320,6 +325,12 @@ namespace ParentContactWeb.Migrations
                         .WithMany("Notes")
                         .HasForeignKey("ContactId")
                         .IsRequired();
+
+                    b.HasOne("ParentContactWeb.models.Student", "Student")
+                        .WithOne("Note")
+                        .HasForeignKey("ParentContactWeb.models.Note", "StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ParentContactWeb.models.Parent", b =>
@@ -328,13 +339,6 @@ namespace ParentContactWeb.Migrations
                         .WithMany("Parents")
                         .HasForeignKey("StudentId")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ParentContactWeb.models.Student", b =>
-                {
-                    b.HasOne("ParentContactWeb.models.Note", "Note")
-                        .WithMany()
-                        .HasForeignKey("NoteId");
                 });
 #pragma warning restore 612, 618
         }

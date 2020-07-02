@@ -21,7 +21,7 @@ namespace ParentContactWeb.Controllers
         // GET: Notes
         public async Task<IActionResult> Index()
         {
-            var parentcontactdbContext = _context.Notes.Include(n => n.Contact).Include(n => n.Student);
+            var parentcontactdbContext = _context.Notes.Include(n => n.Contact);
             return View(await parentcontactdbContext.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace ParentContactWeb.Controllers
 
             var note = await _context.Notes
                 .Include(n => n.Contact)
-                .Include(n => n.Student)
                 .FirstOrDefaultAsync(m => m.NoteId == id);
             if (note == null)
             {
@@ -67,7 +66,6 @@ namespace ParentContactWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
             return View(note);
         }
 
@@ -85,7 +83,6 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
             ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
             return View(note);
         }
 
@@ -122,7 +119,6 @@ namespace ParentContactWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ContactId"] = new SelectList(_context.Contacts, "ContactId", "ContactReason", note.ContactId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", note.StudentId);
             return View(note);
         }
 
@@ -136,7 +132,6 @@ namespace ParentContactWeb.Controllers
 
             var note = await _context.Notes
                 .Include(n => n.Contact)
-                .Include(n => n.Student)
                 .FirstOrDefaultAsync(m => m.NoteId == id);
             if (note == null)
             {

@@ -86,10 +86,7 @@ namespace ParentContactWeb.models
                     .HasName("UK_notes_NoteID")
                     .IsUnique();
 
-                entity.HasIndex(e => e.StudentId)
-                    .HasName("UK_notes_StudentID")
-                    .IsUnique();
-
+                
                 entity.Property(e => e.ContactNotes)
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
@@ -107,10 +104,7 @@ namespace ParentContactWeb.models
                     .HasForeignKey(d => d.ContactId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.HasOne(d => d.Student)
-                    .WithOne(p => p.Note)
-                    .HasForeignKey<Note>(d => d.StudentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+               
             });
             modelBuilder.Entity<ContactReason>(entity =>
             {
