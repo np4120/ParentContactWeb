@@ -34,6 +34,20 @@ namespace ParentContactWeb.Controllers
             return View(await students.ToListAsync());
         }
 
+        public async Task<IActionResult> Data()
+
+        {
+            var list = await _context.Students.ToListAsync();
+            var recordsTotal = list.Count;
+            return Json(new {data=list, recordsFiltered = recordsTotal, recordsTotal =recordsTotal });
+        }
+
+        public async  Task<IActionResult> index2()
+        {
+            return View("index2");
+        }
+
+
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {

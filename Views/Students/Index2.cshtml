@@ -1,0 +1,50 @@
+﻿<table id="table1" class="table"> 
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Grade</th>
+        </tr>
+
+
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(cb);
+        function cb() {
+            $("#table1").DataTable({
+                "processing": false, // show pro=gress bar
+                "serverSide": false,
+                "searching": true,
+                "filter": true,
+                "orderMulti": false,      // disable mutiple column at once
+                "deferRender": true,
+                "bsort": true,
+                "ajax": {
+                    "url": "/Students/data",
+                    "type": "GET",
+                    "datatype": "json"
+
+                },
+
+                "columns": [
+                    { "data": "firstName", "autowidth": false },
+                    { "data": "lastName", "autowidth": true },
+                    { "data": "grade", "autowidth": true }
+
+                ]
+
+
+
+            });
+
+
+        }
+
+
+    </script>
+
+
+
+
+}
