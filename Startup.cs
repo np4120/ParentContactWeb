@@ -8,15 +8,22 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ParentContactWeb.models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Amazon.SecretsManager;
 
 namespace ParentContactWeb
 {
     public class Startup
-    {
-        public Startup(IConfiguration configuration)
+    { 
+        private readonly IWebHostEnvironment _env;
+
+        
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            if (env.IsProduction()){
+            
+            // get db connection string
+            
+            }
         }
 
         public IConfiguration Configuration { get; }

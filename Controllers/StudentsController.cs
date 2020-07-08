@@ -20,20 +20,31 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string searchTerm)
+        public async Task<IActionResult> Index(
+            string searchTerm,
+            int? pageNumber)
 
         {
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+                    
+
             var students = from s in _context.Students
                            select s;
+            students = students.OrderBy(s => s.LastName);
+
             if (!String.IsNullOrEmpty(searchTerm))
             {
                 students = students.Where(s => s.LastName.Contains(searchTerm));
             }
 
-                  
-            return View(await students.ToListAsync());
-        }
+            int pageSize = 10;
+            
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
 
+        }
         public async Task<IActionResult> Data()
 
         {
@@ -42,12 +53,7 @@ namespace ParentContactWeb.Controllers
             return Json(new {data=list, recordsFiltered = recordsTotal, recordsTotal =recordsTotal });
         }
 
-        public async  Task<IActionResult> index2()
-        {
-            return View("index2");
-        }
-
-
+       
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
