@@ -8,7 +8,7 @@
     "environment"    : "ParentContactWeb-dev",
     "enable-xray"    : false,
     "enhanced-health-type" : "basic",
-    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-03e44b730c1b6eb26\";\"aws:ec2:vpc,Subnets\"=\"subnet-0776b0de59b312da9,subnet-0eca94c138d393f5b,subnet-0a3c6a0af4cc43b92\"",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-03e44b730c1b6eb26\";\"aws:ec2:vpc,Subnets\"=\"subnet-0776b0de59b312da9,subnet-0eca94c138d393f5b\"",
     "solution-stack"       : "64bit Amazon Linux 2 v1.0.0 running .NET Core",
     "environment-type"     : "SingleInstance",
     "cname"                : "parentcontactweb-dev",

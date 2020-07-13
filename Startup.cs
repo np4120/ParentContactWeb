@@ -1,5 +1,6 @@
 using System;
 
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,15 +15,16 @@ namespace ParentContactWeb
     public class Startup
     { 
         private readonly IWebHostEnvironment _env;
-
+        private string dbconn;
         
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            dbconn = Environment.GetEnvironmentVariable("ConnectionStrings__ParentContactDB");
             if (env.IsProduction()){
-            
-            // get db connection string
-            
+
+               
+
             }
         }
 
@@ -35,7 +37,7 @@ namespace ParentContactWeb
 
              services.AddDbContextPool<parentcontactdbContext>(options => options
                // replace with your connection string
-               .UseMySql(Configuration.GetConnectionString("ParentContactDB"), mySqlOptions => mySqlOptions
+               .UseMySql(dbconn, mySqlOptions => mySqlOptions
                    // replace with your Server Version and Type
                    .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
            ));
@@ -49,6 +51,8 @@ namespace ParentContactWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                dbconn = Environment.GetEnvironmentVariable("ConnectionStrings__ParentContactDB");
+                
             }
             else
             {
