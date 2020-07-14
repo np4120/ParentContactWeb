@@ -19,10 +19,30 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Parents
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+             string searchTerm,
+            int? pageNumber)
+
         {
-            var parentcontactdbContext = _context.Parents.Include(p => p.Student);
-            return View(await parentcontactdbContext.ToListAsync());
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+
+            var parents = from p in _context.Parents.Include(p => p.Student)
+                          select p;
+            parents = parents.OrderBy(p => p.FamilyName);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                parents = parents.Where(p => p.FamilyName.Contains(searchTerm));
+            }
+
+            int pageSize = 10;
+
+            return View(await PaginatedList<Parent>.CreateAsync(parents.AsNoTracking(), pageNumber ?? 1, pageSize));
+
+
         }
 
         // GET: Parents/Details/5

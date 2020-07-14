@@ -1,50 +1,55 @@
-﻿@model IEnumerable<ParentContactWeb.models.Contact>
+﻿@model PaginatedList<ParentContactWeb.models.Contact>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Parent Contact Tracker</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Contact</a>
 </p>
 
 <form asp-controller="Students" asp-action="Index">
-<p>
-    <input type="text" name="searchTerm">
-    <input type="submit" value="Search" class="btn btn-default" />
-</p>
+    <div class="form-actions no-color">
+
+        <p>
+            Find by name: <input type="text" name="searchTerm">
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+
 </form>
-<table class="table">
-    <thead>
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ContactReason)
+                Contact Reason
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TalkingPoints)
+                Talking Points
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParentComments)
+                Parent Comments
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FollowUpNeeded)
+                FollowUp Needed?
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactStatus)
+                ContactStatus
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactMethod)
+                Contact Method
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactDate)
+                Contact Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parent)
+                Parent
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student)
+                Student
             </th>
             <th></th>
         </tr>
@@ -75,17 +80,40 @@
                     @Html.DisplayFor(modelItem => item.ContactDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Parent.FamilyName)
+                    @{
+                        var parentname = item.Parent.FamilyName + "," + item.Parent.FirstName;
+                        @Html.DisplayFor(modelItem => parentname )
+
+
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Student.FirstName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ContactId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ContactId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ContactId">Delete</a>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a> |
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ContactId">Details</a> |
+                    <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.ContactId">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-secondary @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-secondary @nextDisabled">
+    Next
+</a>
+
+

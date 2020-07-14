@@ -19,10 +19,26 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Contacts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+             string searchTerm,
+            int? pageNumber)
+
         {
-            var parentcontactdbContext = _context.Contacts.Include(c => c.Parent).Include(c => c.Student);
-            return View(await parentcontactdbContext.ToListAsync());
+            var contacts = from c in _context.Contacts.Include(c => c.Parent).Include(c => c.Student)
+                           select c;
+            contacts = contacts.OrderBy(c => c.ContactDate).ThenByDescending(c => c.Student.LastName);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                contacts = contacts.Where(s => s.Student.LastName.Contains(searchTerm));
+            }
+
+
+            int pageSize = 10;
+
+            return View(await PaginatedList<Contact>.CreateAsync(contacts.AsNoTracking(), pageNumber ?? 1, pageSize));
+
+            
         }
 
         // GET: Contacts/Details/5
