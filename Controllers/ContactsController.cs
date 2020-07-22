@@ -95,13 +95,29 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+
+            // todo - include any notes associated with this contact 
+            //  var contact = await _context.Contacts.FindAsync(id);
+
+            var contact = await _context.Contacts
+                .Include(c => c.Notes)
+                .FirstOrDefaultAsync(n => n.ContactId == id);
+
             if (contact == null)
             {
                 return NotFound();
             }
-            ViewData["ParentId"] = new SelectList(_context.Parents, "ParentId", "FamilyName", contact.ParentId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", contact.StudentId);
+
+            //todo - this should not be a select list - this should be the parent full name and student's first name
+
+            var parent = await _context.Parents
+                .FirstOrDefaultAsync(p => p.ParentId == contact.ParentId);
+            
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.StudentId == contact.StudentId);
+
+            ViewData["Parent"] = parent;
+            ViewData["Student"] = student;
             return View(contact);
         }
 
