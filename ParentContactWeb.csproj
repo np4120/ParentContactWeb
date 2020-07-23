@@ -5,6 +5,8 @@
     <UserSecretsId>71e2a6d7-9a1d-474a-ac02-841a9de1da6a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <Authors>Norman Procope</Authors>
+    <Company>Procope Consulting LLC</Company>
   </PropertyGroup>
 
   <ItemGroup>
