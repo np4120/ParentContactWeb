@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove=".ebextensions\**" />
+    <Content Remove=".ebextensions\**" />
+    <EmbeddedResource Remove=".ebextensions\**" />
+    <None Remove=".ebextensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20200624195732_addLookups.cs" />
     <Compile Remove="Migrations\20200624195732_addLookups.Designer.cs" />
     <Compile Remove="Migrations\20200624200836_contactlookups.cs" />
@@ -40,12 +47,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include=".ebextensions\enviornment.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
