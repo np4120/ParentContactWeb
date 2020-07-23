@@ -1,4 +1,11 @@
 # Docker
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS PCLLCDev'
+    regionName: 'us-east-1'
+    imageSource: 'imagename'
+    sourceImageName: 'ParentContactweb'
+    repositoryName: 'parentcontactweb'
 # Build a Docker image 
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
