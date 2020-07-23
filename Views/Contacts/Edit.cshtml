@@ -87,6 +87,66 @@
 
 </form>
 
+ <table class="table table-bordered table-hover">
+     <thead class="thead-dark">
+         <tr>
+             <th>
+                 Note Type
+             </th>
+             <th>
+                 Notes
+             </th>
+             <th>
+                Note Date
+             </th>
+             <th>
+                 Parent Comments
+             </th>
+            
+         </tr>
+     </thead>
+     @if( @notecount > 0)
+
+     {
+ <tbody>
+     @foreach (var item in Model.Notes)
+     {
+         <tr>
+             <td>
+                 @Html.DisplayFor(modelItem => item.NoteType)
+             </td>
+             <td>
+                 @Html.DisplayFor(modelItem => item.NoteDate)
+             </td>
+             <td>
+                 @Html.DisplayFor(modelItem => item.ContactNotes)
+             </td>
+             <td>
+                 @Html.DisplayFor(modelItem => item.ParentComments)
+             </td>
+             
+         </tr>
+     }
+ </tbody>
+
+
+     }
+
+     else
+     {
+      
+           @Html.DisplayText("no notes found")
+
+      
+      
+
+     }
+
+
+
+
+
+     </table>
 
 
 
@@ -94,12 +154,11 @@
 
 
 
+     <div>
+      
+         <a asp-action="Index">Back to List</a>
+     </div>
 
-<div>
-    add new note option
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+     @section Scripts {
+         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     }
