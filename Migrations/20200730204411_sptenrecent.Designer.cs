@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParentContactWeb.models;
 
 namespace ParentContactWeb.Migrations
 {
     [DbContext(typeof(parentcontactdbContext))]
-    partial class parentcontactdbContextModelSnapshot : ModelSnapshot
+    [Migration("20200730204411_sptenrecent")]
+    partial class sptenrecent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -27,13 +27,15 @@
     <div class="form-row">
         <div class="col-4">
             <label asp-for="Student" class="control-label"></label>
-            <input asp-for="@studentname" class="form-control" readonly="@true" />
-            <span asp-validation-for="StudentId" class="text-danger"></span>
+            <input type="text" readonly value="@studentname" class="form-control"/>
+            <input type="hidden" asp-for="StudentId" class="form-control" readonly="@true" />
+
         </div>
         <div class="col-4">
             <label asp-for="Parent" class="control-label"></label>
-            <input asp-for="@parentname" class="form-control" readonly="@true" />
-            <span asp-validation-for="ParentId" class="text-danger"></span>
+            <input type="text" readonly value="@parentname" class="form-control" />
+            <input type="hidden" asp-for="ParentId" class="form-control" readonly="@true" />
+
         </div>
     </div>
     <div class="form-row">
