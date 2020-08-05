@@ -6,21 +6,44 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ParentContactWeb.Models;
+using Microsoft.EntityFrameworkCore;
+using ParentContactWeb.models;
+using ParentContactWeb.ViewModels;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ParentContactWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly parentcontactdbContext _context;
+       
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(parentcontactdbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Students
+        public     IActionResult Index()
         {
-            return View();
+
+            var  temp = _context.Contacts.OrderByDescending(c => c.ContactDate)
+                    .Select(c => new ContactTopTenViewModel
+                     {
+                        FirstName = c.Parent.FirstName,
+                        LastName = c.Parent.FamilyName,
+                        ContactReason = c.ContactReason,
+                        ContactDate = c.ContactDate,
+                        ContactID = c.ContactId,
+                        FollowupNeeded = (bool)c.FollowUpNeeded
+
+                    })
+                    .Take(10)
+                                        ;
+            
+           // ViewBag.ContactTopTen = temp;
+            return View(temp);
         }
 
         public IActionResult Privacy()
