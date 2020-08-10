@@ -96,12 +96,21 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-            var parent = await _context.Parents.FindAsync(id);
+           
+            var parent = await _context.Parents
+                .Include(p => p.Contacts)
+                .FirstOrDefaultAsync(n => n.ParentId == id);
+
             if (parent == null)
             {
                 return NotFound();
             }
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
+
+
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.StudentId == parent.StudentId);
+
+            ViewData["Student"] = student;
             return View(parent);
         }
 

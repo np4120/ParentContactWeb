@@ -6,49 +6,146 @@
 
 <h1>Edit</h1>
 
+@{
+    var student = ViewData["student"] as ParentContactWeb.models.Student;
+    var contactcount = Model.Contacts.Count;
+    var studentname = student.FirstName + " " + student.LastName;
+
+
+
+ }
+
+
+
 <h4>Parent</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ParentId" />
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
-                <span asp-validation-for="StudentId" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <input type="hidden" asp-for="ParentId" />
+
             </div>
-            <div class="form-group">
-                <label asp-for="FamilyName" class="control-label"></label>
-                <input asp-for="FamilyName" class="form-control" />
-                <span asp-validation-for="FamilyName" class="text-danger"></span>
+
+            <div class="form-row">
+                <div class="col-4">
+                    <label asp-for="Student" class="control-label"></label>
+                    <input type="text" readonly value="@studentname" class="form-control"/>
+                    <input type="hidden" asp-for="StudentId" class="form-control" readonly="@true" />
+                                    
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+
+
+            <div class="form-row">
+                <div class="col-4">
+                     <label asp-for="FamilyName" class="control-label"></label>
+                     <input asp-for="FamilyName" class="form-control" />
+                     <span asp-validation-for="FamilyName" class="text-danger"></span>
+                </div>
+           
+                <div class="col-4">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="CellNo" class="control-label"></label>
-                <input asp-for="CellNo" class="form-control" />
-                <span asp-validation-for="CellNo" class="text-danger"></span>
+
+
+            <div class="form-row">
+                <div class="col-4">
+                     <label asp-for="CellNo" class="control-label"></label>
+                     <input asp-for="CellNo" class="form-control" />
+                     <span asp-validation-for="CellNo" class="text-danger"></span>
+                </div>
+            
+
+
+                <div class="col-4">
+                  <label asp-for="Email" class="control-label"></label>
+                  <input asp-for="Email" class="form-control" />
+                  <span asp-validation-for="Email" class="text-danger"></span>
+             </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Contact Date
+                    </th>
+                    <th>
+                        Contact Reason
+                    </th>
+                    <th>
+                        Talking Point
+                    </th>
+                    <th>
+                        Parent Comments
+                    </th>
+                    <th>
+                        Follow-up Needed
+                    </th>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                </tr>
+            </thead>
+            @if (contactcount > 0)
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            {
+                <tbody>
+                    @foreach (var item in Model.Contacts)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactReason)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TalkingPoints)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParentComments)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FollowUpNeeded)
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+
+
+            }
+
+            else
+            {
+
+                @Html.DisplayText("no notes found")
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+        </table>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+
+            @section Scripts {
+                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            }
