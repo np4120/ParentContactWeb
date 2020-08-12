@@ -55,6 +55,7 @@ namespace ParentContactWeb.Controllers
 
             var parent = await _context.Parents
                 .Include(p => p.Student)
+                .Include(c => c.Contacts)
                 .FirstOrDefaultAsync(m => m.ParentId == id);
             if (parent == null)
             {
