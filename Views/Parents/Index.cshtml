@@ -7,7 +7,7 @@
 
 <h1>Parent List</h1>
 
-// - search by parent or student name
+ search by parent or student name
 <form asp-controller="Parents" asp-action="Index">
     <div class="form-actions no-color">
 
@@ -59,9 +59,9 @@
                     @Html.DisplayFor(modelItem => item.Student.FirstName)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ParentId">Edit</a> |
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ParentId">Details</a> |
-
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ParentId">Edit</a>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ParentId">Details</a>
+                    <a class="btn btn-primary" asp-action="Create" asp-controller="Contacts" asp-route-id="@item.ParentId">New Contact</a>
                 </td>
             </tr>
         }

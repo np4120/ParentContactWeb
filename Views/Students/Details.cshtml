@@ -6,48 +6,174 @@
 
 <h1>Details</h1>
 
+@{
+    var parentcount = Model.Parents.Count;
+    var contactcount = Model.Contacts.Count;
+
+
+}
+
+
 <div>
     <h4>Student</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StudentNo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StudentNo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Usi)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Usi)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LastName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Grade)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Grade)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StudentNotes)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StudentNotes)
         </dd>
     </dl>
 </div>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Family Name
+            </th>
+            <th>
+                Cell
+            </th>
+            <th>
+                email
+            </th>
+
+        </tr>
+    </thead>
+    {
+    <tbody>
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Parents.FirstOrDefault().FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Parents.FirstOrDefault().FamilyName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Parents.FirstOrDefault().CellNo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Parents.FirstOrDefault().Email)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+    }
+
+
+</table>
+
+
+
+<p>
+
+
+
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Contact Date
+            </th>
+            <th>
+                Contact Reason
+            </th>
+            <th>
+                School Note
+            </th>
+            <th>
+                Parent Comments
+            </th>
+
+        </tr>
+    </thead>
+    @if (contactcount > 0)
+
+    {
+        <tbody>
+            @foreach (var item in Model.Contacts)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactReason)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TalkingPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParentComments)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+
+    }
+
+    else
+    {
+
+        @Html.DisplayText("no notes found")
+
+
+
+
+    }
+
+
+
+
+
+</table>
+
+
+
+
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.StudentId">Edit</a> |
     <a asp-action="Index">Back to List</a>

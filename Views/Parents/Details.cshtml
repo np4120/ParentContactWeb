@@ -7,10 +7,10 @@
 <h1>Details</h1>
 
 @{
-    
 
+    var contactcount = Model.Contacts.Count;
 
- }
+}
 
 
 <div>
@@ -68,25 +68,75 @@
 
         </tr>
     </thead>
-   
+    {
+    <tbody>
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Student.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Student.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Student.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Student.Note)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+    }
+
+
+</table>
+
+<p>
+
+
+
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Contact Date
+            </th>
+            <th>
+                Contact Reason
+            </th>
+            <th>
+                School Note
+            </th>
+            <th>
+                Parent Comments
+            </th>
+
+        </tr>
+    </thead>
+    @if (contactcount > 0)
 
     {
         <tbody>
-           {
+            @foreach (var item in Model.Contacts)
+            {
                 <tr>
                     <td>
-                        @Html.DisplayFor(model => model.Student.FirstName)
+                        @Html.DisplayFor(modelItem => item.ContactDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Student.LastName)
+                        @Html.DisplayFor(modelItem => item.ContactReason)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Student.Grade)
+                        @Html.DisplayFor(modelItem => item.TalkingPoints)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.Student.Note)
+                        @Html.DisplayFor(modelItem => item.ParentComments)
                     </td>
-                    
+
                 </tr>
             }
         </tbody>
@@ -94,7 +144,10 @@
 
     }
 
-   
+    else
+    {
+
+        @Html.DisplayText("no notes found")
 
 
 
@@ -106,6 +159,7 @@
 
 
 </table>
+
 
 
 

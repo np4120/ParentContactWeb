@@ -62,10 +62,28 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Contacts/Create
-        public IActionResult Create()
+        public async Task<IActionResult>Create(int? id)
         {
-            ViewData["ParentId"] = new SelectList(_context.Parents, "ParentId", "FamilyName");
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName");
+            var parent = await _context.Parents
+                .FirstOrDefaultAsync(p => p.ParentId == id);
+
+            var familyname = parent.FamilyName;
+
+            var student = await _context.Students
+                .Where(s => s.LastName == familyname)
+                .FirstOrDefaultAsync();
+
+            var contactreasons = await _context.ContactReasons
+                .ToListAsync();
+
+            var contactmethods = await _context.ContactMethods
+                .ToListAsync();
+
+            ViewData["ContactMethod"] = new SelectList(contactmethods, "CmID", "Method");
+            ViewData["ContactReasons"] = new SelectList(contactreasons, "CrID", "Reason");
+            ViewData["Student"] = student;
+            ViewData["Parent"] = parent;
+
             return View();
         }
 
@@ -74,7 +92,7 @@ namespace ParentContactWeb.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactId,StudentId,ParentId,ContactReason,TalkingPoints,ParentComments,FollowUpNeeded,ContactStatus,ContactMethod,ContactDate")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactId,StudentId,ParentId,ContactReason,TalkingPoints,ParentComments,FollowUpNeeded,ContactStatus,ContactMethod,ContactDate,AssignedTo")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -82,8 +100,7 @@ namespace ParentContactWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Parents, "ParentId", "FamilyName", contact.ParentId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", contact.StudentId);
+          
             return View(contact);
         }
 
@@ -126,7 +143,7 @@ namespace ParentContactWeb.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactId,StudentId,ParentId,ContactReason,TalkingPoints,ParentComments,FollowUpNeeded,ContactStatus,ContactMethod,ContactDate")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ContactId,StudentId,ParentId,ContactReason,TalkingPoints,ParentComments,FollowUpNeeded,ContactStatus,ContactMethod,ContactDate,AssignedTo")] Contact contact)
         {
             if (id != contact.ContactId)
             {
