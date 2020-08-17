@@ -78,12 +78,15 @@ namespace ParentContactWeb.Controllers
 
             var contactmethods = await _context.ContactMethods
                 .ToListAsync();
+            var staffs = await _context.Staffs
+                .ToListAsync();
 
-            ViewData["ContactMethod"] = new SelectList(contactmethods, "CmID", "Method");
-            ViewData["ContactReasons"] = new SelectList(contactreasons, "CrID", "Reason");
+            ViewData["ContactMethod"] = new SelectList(contactmethods, "Method", "Method");
+            ViewData["ContactReasons"] = new SelectList(contactreasons, "Reason", "Reason");
+            ViewData["AssignedTo"] = new SelectList(staffs, "FullName", "FullName");
             ViewData["Student"] = student;
             ViewData["Parent"] = parent;
-
+            
             return View();
         }
 
@@ -100,7 +103,24 @@ namespace ParentContactWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-          
+
+            var parent = await _context.Parents
+                .FirstOrDefaultAsync(p => p.ParentId == contact.ParentId);
+
+            var familyname = parent.FamilyName;
+
+            var student = await _context.Students
+                .Where(s => s.LastName == familyname)
+                .FirstOrDefaultAsync();
+            var contactreasons = await _context.ContactReasons
+               .ToListAsync();
+
+            var contactmethods = await _context.ContactMethods
+                .ToListAsync();
+            ViewData["Student"] = student;
+            ViewData["Parent"] = parent;
+            ViewData["ContactMethod"] = new SelectList(contactmethods, "CmID", "Method");
+            ViewData["ContactReasons"] = new SelectList(contactreasons, "CrID", "Reason");
             return View(contact);
         }
 

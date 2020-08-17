@@ -15,6 +15,10 @@ namespace ParentContactWeb.Models
         [Column("StaffId", TypeName = "int(11)")]
         public int StaffId{ get; set; }
 
+        [Column(TypeName = "varchar(100)")]
+        public string FullName { get; set; }
+
+
         [Required]
         [Column(TypeName = "varchar(100)")]
         public string FirstName { get; set; }
@@ -23,7 +27,7 @@ namespace ParentContactWeb.Models
         [Column(TypeName = "varchar(100)")]
         public string LastName { get; set; }
         [Column(TypeName = "varchar(100)")]
-        public string Notes { get; set; }
+        public string Title { get; set; }
 
 
 

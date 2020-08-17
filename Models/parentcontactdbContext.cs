@@ -135,13 +135,16 @@ namespace ParentContactWeb.models
                 entity.HasIndex(e => e.StaffId)
                     .HasName("IDX_Staff_Staffid");
 
+                entity.Property(e => e.FullName)
+                   .HasCharSet("latin1")
+                   .HasCollation("latin1_swedish_ci");
                 entity.Property(e => e.FirstName)
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
                 entity.Property(e => e.LastName)
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-                entity.Property(e => e.Notes)
+                entity.Property(e => e.Title)
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
             });

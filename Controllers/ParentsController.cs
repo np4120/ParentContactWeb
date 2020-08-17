@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParentContactWeb.models;
 
-namespace ParentContactWeb.Controllers
+namespace ParentContactWeb
 {
     public class ParentsController : Controller
     {
@@ -18,11 +18,11 @@ namespace ParentContactWeb.Controllers
             _context = context;
         }
 
-        // GET: Parents
+        // GET: ParentsController2
         public async Task<IActionResult> Index(
              string searchTerm,
-            int? pageNumber)
-
+            int? pageNumber
+            )
         {
             if (searchTerm != null)
             {
@@ -42,10 +42,9 @@ namespace ParentContactWeb.Controllers
 
             return View(await PaginatedList<Parent>.CreateAsync(parents.AsNoTracking(), pageNumber ?? 1, pageSize));
 
-
         }
 
-        // GET: Parents/Details/5
+        // GET: ParentsController2/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,11 +54,7 @@ namespace ParentContactWeb.Controllers
 
             var parent = await _context.Parents
                 .Include(p => p.Student)
-                .Include(c => c.Contacts)
                 .FirstOrDefaultAsync(m => m.ParentId == id);
-
-
-
             if (parent == null)
             {
                 return NotFound();
@@ -68,14 +63,14 @@ namespace ParentContactWeb.Controllers
             return View(parent);
         }
 
-        // GET: Parents/Create
+        // GET: ParentsController2/Create
         public IActionResult Create()
         {
             ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName");
             return View();
         }
 
-        // POST: Parents/Create
+        // POST: ParentsController2/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -92,7 +87,7 @@ namespace ParentContactWeb.Controllers
             return View(parent);
         }
 
-        // GET: Parents/Edit/5
+        // GET: ParentsController2/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,25 +95,25 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
-           
             var parent = await _context.Parents
                 .Include(p => p.Contacts)
                 .FirstOrDefaultAsync(n => n.ParentId == id);
+
+
 
             if (parent == null)
             {
                 return NotFound();
             }
-
-
             var student = await _context.Students
-                .FirstOrDefaultAsync(s => s.StudentId == parent.StudentId);
+               .FirstOrDefaultAsync(s => s.StudentId == parent.StudentId);
 
             ViewData["Student"] = student;
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
             return View(parent);
         }
 
-        // POST: Parents/Edit/5
+        // POST: ParentsController2/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -150,11 +145,19 @@ namespace ParentContactWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            parent = await _context.Parents
+               .FirstOrDefaultAsync(n => n.ParentId == id);
+
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.StudentId == parent.StudentId);
+
+            ViewData["Student"] = student;
             ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FirstName", parent.StudentId);
             return View(parent);
         }
 
-        // GET: Parents/Delete/5
+        // GET: ParentsController2/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -173,7 +176,7 @@ namespace ParentContactWeb.Controllers
             return View(parent);
         }
 
-        // POST: Parents/Delete/5
+        // POST: ParentsController2/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

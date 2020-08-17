@@ -12,17 +12,17 @@
 
 <h4>Contact</h4>
 <hr />
-<
+
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Student" class="control-label">Student</label>
-        <input type="text" readonly value="@studentname" class="form-control" />
+        <label asp-for="StudentId" class="control-label">Student</label>
+        @Html.DisplayText(studentname)
         <input type="hidden" asp-for="StudentId" class="form-control" readonly="@true" />
     </div>
     <div class="form-group">
-        <label asp-for="Parent" class="control-label"></label>
-        <input type="text" readonly value="@parentname" class="form-control" />
+        <label asp-for="ParentId" class="control-label"></label>
+        @Html.DisplayText(parentname)
         <input type="hidden" asp-for="ParentId" class="form-control" readonly="@true" />
     </div>
     <div class="form-group">
@@ -39,22 +39,36 @@
     <div class="form-group">
         <label asp-for="ContactMethod" class="control-label"></label>
         <Select asp-for="ContactMethod" class="form-control" asp-items="ViewBag.ContactMethod">
+            <option value="">Select Contact Method</option>
         </Select>
         <span asp-validation-for="ContactMethod" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="ContactStatus" class="control-label"></label>
-        <input asp-for="ContactStatus" class="form-control" />
+        <Select asp-for="ContactStatus" class="custom-select">
+                <option value="">Choose Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                 
+         </Select>
         <span asp-validation-for="ContactStatus" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="FollowUpNeeded" class="control-label"></label>
-        <input asp-for="FollowUpNeeded" class="form-control" />
+        <Select asp-for="FollowUpNeeded" class="custom-select">
+            <option value="">Is Follow-up Needed</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+
+        </Select>
+
+
+
         <span asp-validation-for="FollowUpNeeded" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="TalkingPoints" class="control-label">School Notes</label>
-        @Html.TextAreaFor(m => m.TalkingPoints, new { @class = "form-control" })
+      
         <span asp-validation-for="TalkingPoints" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -66,7 +80,10 @@
     </div>
     <div class="form-group">
         <label asp-for="AssignedTo" class="control-label"></label>
-        <input asp-for="AssignedTo" class="form-control" />
+        <Select asp-for="AssignedTo" class="form-control" asp-items="ViewBag.AssignedTo">
+          <option value="">Choose Assignee</option>
+        </Select>
+
         <span asp-validation-for="AssignedTo" class="text-danger"></span>
     </div>
 
@@ -84,3 +101,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
