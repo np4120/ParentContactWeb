@@ -9,14 +9,14 @@
 @{
     var parentcount = Model.Parents.Count;
     var contactcount = Model.Contacts.Count;
-
+    var parentid = Model.Parents.FirstOrDefault().ParentId;
 
 }
 
 
 <div>
     <h4>Student</h4>
-    <hr />
+    
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StudentNo)
@@ -57,6 +57,12 @@
     </dl>
 </div>
 
+
+<p>
+
+   <h4> Student's Parent </h4>
+</p>
+
 <table class="table table-bordered table-hover">
     <thead class="thead-dark">
         <tr>
@@ -72,12 +78,12 @@
             <th>
                 email
             </th>
-
+            <th></th>
         </tr>
     </thead>
-    {
+    
     <tbody>
-        {
+        
         <tr>
             <td>
                 @Html.DisplayFor(model => model.Parents.FirstOrDefault().FirstName)
@@ -91,11 +97,13 @@
             <td>
                 @Html.DisplayFor(model => model.Parents.FirstOrDefault().Email)
             </td>
-
+            <td>
+                <a class="btn btn-primary" asp-controller="Parents" asp-action="Edit" asp-route-id="@parentid">Edit</a>
+            </td>
         </tr>
-        }
+        
     </tbody>
-    }
+    
 
 
 </table>
@@ -104,7 +112,7 @@
 
 <p>
 
-
+    <h4>Recent Parent Contact(s) </h4>
 
 </p>
 
@@ -123,7 +131,9 @@
             <th>
                 Parent Comments
             </th>
+            <th>
 
+            </th>
         </tr>
     </thead>
     @if (contactcount > 0)
@@ -145,7 +155,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ParentComments)
                     </td>
+                    <td>
+                        <a class="btn btn-primary"  asp-controller="Contacts" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a>
+                        <a class="btn btn-primary"  asp-controller="Contacts" asp-action="Create" asp-route-id="@item.ParentId">New Contact</a>
 
+
+                    </td>
                 </tr>
             }
         </tbody>

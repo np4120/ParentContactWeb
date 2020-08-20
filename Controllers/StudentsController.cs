@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ namespace ParentContactWeb.Controllers
         // GET: Students
         public async Task<IActionResult> Index(
             string searchTerm,
+            int? grade,
             int? pageNumber)
 
         {
@@ -37,8 +39,18 @@ namespace ParentContactWeb.Controllers
 
             if (!String.IsNullOrEmpty(searchTerm))
             {
+
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                searchTerm = textInfo.ToTitleCase(searchTerm);
                 students = students.Where(s => s.LastName.Contains(searchTerm));
             }
+
+            if (grade !=null)
+            {
+               
+                students = students.Where(s => s.Grade == grade);
+            }
+
 
             int pageSize = 10;
             

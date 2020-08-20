@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ParentContactWeb.models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace ParentContactWeb
 {
@@ -16,11 +18,13 @@ namespace ParentContactWeb
     { 
         private readonly IWebHostEnvironment _env;
         private string dbconn;
-        
+        private string sSecrets;
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
             dbconn = Environment.GetEnvironmentVariable("ConnectionStrings__ParentContactDB");
+            sSecrets = Environment.GetEnvironmentVariable("Authentication_Google_ClientId");
+
             if (env.IsProduction()){
 
                
@@ -33,16 +37,37 @@ namespace ParentContactWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+                    .AddCookie()
+                    .AddGoogle(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Google");
+
+                        options.ClientId = googleAuthNSection["ClientId"];
+                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    });
+
+
             services.AddControllersWithViews();
 
-             services.AddDbContextPool<parentcontactdbContext>(options => options
-               // replace with your connection string
-               .UseMySql(dbconn, mySqlOptions => mySqlOptions
-                   // replace with your Server Version and Type
-                   .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
-           ));
+             services.AddDbContextPool<parentcontactdbContext>
+                (options => options
+               
+                    .UseMySql(dbconn, mySqlOptions => mySqlOptions
+                    .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
+                ));
 
             
+
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

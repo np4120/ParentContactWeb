@@ -16,6 +16,22 @@
     <div class="form-actions no-color">
 
         <p>
+            Filter by Grade: @Html.DropDownList("Grade", new List<SelectListItem>{
+
+            new SelectListItem{ Text="Six", Value="6"},
+
+            new SelectListItem{ Text="Seven", Value="7"},
+
+            new SelectListItem{ Text="Eight", Value="8"},
+
+            }, "Select Grade")
+            <input type="submit" value="Filter" class="btn btn-primary" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+
+
+
+        <p>
             Find by name: <input type="text" name="searchTerm">
             <input type="submit" value="Search" class="btn btn-primary" /> |
             <a asp-action="Index">Back to Full List</a>
@@ -72,9 +88,9 @@
                     @Html.DisplayFor(modelItem => item.StudentNotes)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
-
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> 
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.StudentId">Details</a> 
+                </td>
             </tr>
         }
     </tbody>
