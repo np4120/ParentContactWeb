@@ -8,8 +8,8 @@
 
 
 @{
-
-    var contactcount = Model.Contacts.Count;
+    var contacts = ViewData["Contacts"] as IEnumerable<ParentContactWeb.models.Contact>;
+    var contactcount = contacts.Count();
 
 }
 
@@ -116,30 +116,39 @@
             <th>
                 Parent Comments
             </th>
+            <th>
 
+            </th>
         </tr>
     </thead>
     @if (contactcount > 0)
 
     {
         <tbody>
-            @foreach (var item in Model.Contacts)
+            @foreach (var item in contacts)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContactDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContactReason)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TalkingPoints)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ParentComments)
-                    </td>
+            <tr>
+                <td>
+                    @item.ContactDate
+                </td>
+                <td>
+                    @item.ContactReason
+                </td>
+                <td>
+                    @item.TalkingPoints
+                </td>
+                <td>
+                    @item.ParentComments
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Contacts" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a>
+                    <a class="btn btn-primary" asp-controller="Contacts" asp-action="Create" asp-route-id="@item.ParentId">New Contact</a>
 
-                </tr>
+
+                </td>
+
+
+            </tr>
             }
         </tbody>
 

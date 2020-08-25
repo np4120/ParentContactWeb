@@ -7,8 +7,9 @@
 <h1>Details</h1>
 
 @{
+    var contacts = ViewData["Contacts"] as IEnumerable<ParentContactWeb.models.Contact>;
     var parentcount = Model.Parents.Count;
-    var contactcount = Model.Contacts.Count;
+    var contactcount = contacts.Count();
     var parentid = Model.Parents.FirstOrDefault().ParentId;
 
 }
@@ -140,20 +141,22 @@
 
     {
         <tbody>
-            @foreach (var item in Model.Contacts)
+            @foreach (var item in contacts)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ContactDate)
+                                          
+                        @item.ContactDate
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ContactReason)
+                                             
+                        @item.ContactReason
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TalkingPoints)
+                        @item.TalkingPoints
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ParentComments)
+                         @item.ParentComments
                     </td>
                     <td>
                         <a class="btn btn-primary"  asp-controller="Contacts" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a>

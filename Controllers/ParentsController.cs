@@ -55,8 +55,16 @@ namespace ParentContactWeb
             var parent = await _context.Parents
                 .Include(p => p.Student)
                 .FirstOrDefaultAsync(m => m.ParentId == id);
+
+            var contact = await _context.Contacts
+              .Where(c => c.ParentId == parent.ParentId)
+              .OrderByDescending(c => c.ContactDate)
+              .ToListAsync();
+
+            ViewData["Contacts"] = contact;
+
             if (parent == null)
-            {
+                           {
                 return NotFound();
             }
 

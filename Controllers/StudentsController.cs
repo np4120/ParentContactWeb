@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using ParentContactWeb.models;
 
 
@@ -60,7 +61,9 @@ namespace ParentContactWeb.Controllers
         public async Task<IActionResult> Data()
 
         {
-            var list = await _context.Students.ToListAsync();
+            var list = await _context.Students
+                
+                .ToListAsync();
             var recordsTotal = list.Count;
             return Json(new {data=list, recordsFiltered = recordsTotal, recordsTotal =recordsTotal });
         }
@@ -74,15 +77,24 @@ namespace ParentContactWeb.Controllers
                 return NotFound();
             }
 
+            
+
             var student = await _context.Students
                 .Include (p => p.Parents)
-                .Include (c=> c.Contacts)
                 .FirstOrDefaultAsync(m => m.StudentId == id);
+
+            var contact = await _context.Contacts
+                .Where(c => c.StudentId == student.StudentId)
+                .OrderByDescending(c => c.ContactDate)
+                .ToListAsync();
+            
+
             if (student == null)
             {
                 return NotFound();
             }
 
+            ViewData["Contacts"] = contact;
             return View(student);
         }
 

@@ -26,7 +26,7 @@ namespace ParentContactWeb.Controllers
         {
             var contacts = from c in _context.Contacts.Include(c => c.Parent).Include(c => c.Student)
                            select c;
-            contacts = contacts.OrderBy(c => c.ContactDate).ThenByDescending(c => c.Student.LastName);
+            contacts = contacts.OrderByDescending(c => c.ContactDate).ThenByDescending(c => c.Student.LastName);
 
             if (!String.IsNullOrEmpty(searchTerm))
             {

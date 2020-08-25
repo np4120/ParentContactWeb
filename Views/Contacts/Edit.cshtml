@@ -20,19 +20,31 @@
 
 <h4>Contact</h4>
 
+<p>
+    <h6>
+        Parent: @parentname
+
+        Student : @studentname
+
+    </h6>
+
+</p>
+
+
+
 <<form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ContactId" />
 
     <div class="form-row">
         <div class="col-4">
-            <label asp-for="Student" class="control-label"></label>
-            <input type="text" readonly value="@studentname" class="form-control"/>
+
+            <input type="text" readonly value="@studentname" class="form-control" />
             <input type="hidden" asp-for="StudentId" class="form-control" readonly="@true" />
 
         </div>
         <div class="col-4">
-            <label asp-for="Parent" class="control-label"></label>
+
             <input type="text" readonly value="@parentname" class="form-control" />
             <input type="hidden" asp-for="ParentId" class="form-control" readonly="@true" />
 
@@ -41,22 +53,26 @@
     <div class="form-row">
         <div class="col-2">
             <label asp-for="ContactReason" class="control-label"></label>
-            <input asp-for="ContactReason" class="form-control" />
+            <input asp-for="ContactReason" class="form-control" readonly="@true" />
             <span asp-validation-for="ContactReason" class="text-danger"></span>
         </div>
         <div class="col-2">
             <label asp-for="ContactStatus" class="control-label"></label>
-            <input asp-for="ContactStatus" class="form-control" />
+            <Select asp-for="ContactStatus" class="custom-select">
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+
+            </Select>
             <span asp-validation-for="ContactStatus" class="text-danger"></span>
         </div>
         <div class="col-2">
-            <label asp-for="ContactMethod" class="control-label"></label>
-            <input asp-for="ContactMethod" class="form-control" />
+            <label asp-for="ContactMethod" class="control-label" ></label>
+            <input asp-for="ContactMethod" class="form-control" readonly="@true"/>
             <span asp-validation-for="ContactMethod" class="text-danger"></span>
         </div>
         <div class="col-2">
             <label asp-for="ContactDate" class="control-label"></label>
-            <input asp-for="ContactDate" class="form-control" />
+            <input asp-for="ContactDate" class="form-control" readonly="@true" />
             <span asp-validation-for="ContactDate" class="text-danger"></span>
         </div>
     </div>
@@ -65,16 +81,28 @@
         <div class="col-1">
 
             <label asp-for="FollowUpNeeded" class="control-label"></label>
-            <input asp-for="FollowUpNeeded" class="form-control" />
+            <Select asp-for="FollowUpNeeded" class="custom-select">
+                <option value="True">Yes</option>
+                <option value="False">No</option>
+
+            </Select>
             <span asp-validation-for="FollowUpNeeded" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-row">
         <div class="col-7">
-            <label asp-for="TalkingPoints" class="control-label"></label>
-            <textarea  rows="5" asp-for="TalkingPoints" class="form-control"></textarea> 
+            <label asp-for="TalkingPoints" class="control-label">School Notes</label>
+            <textarea rows="5" asp-for="TalkingPoints" class="form-control"></textarea>
             <span asp-validation-for="TalkingPoints" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-7">
+            <label asp-for="ParentComments" class="control-label">Parent Comments</label>
+            <textarea rows="5" asp-for="ParentComments" class="form-control"></textarea>
+            <span asp-validation-for="Parent" class="text-danger"></span>
         </div>
     </div>
 
