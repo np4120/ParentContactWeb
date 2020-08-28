@@ -19,7 +19,7 @@
     "container-port-mapping"    : "80:80",
     "container-environment-variables" : "\"ASPNETCORE_ENVIRONMENT\"=\"Production\";\"ConnectionStrings__ParentContactDB\"=\"Server=npsproddb2.cz9ggaz7qsra.us-east-1.rds.amazonaws.com;port=3306;user=npsadmin;password=Fdx35mNepnky3;database=parentcontactdb\"",
     "skip-image-push"                 : false,
-    "cluster-service"                 : "ParentContactWeb",
+    "cluster-service"                 : "npsdev/ParentContactWeb",
     "desired-count"                   : 1,
     "deployment-minimum-healthy-percent" : 50,
     "deployment-maximum-percent"         : 200,

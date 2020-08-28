@@ -73,16 +73,22 @@ namespace ParentContactWeb.Controllers
                 .Where(s => s.LastName == familyname)
                 .FirstOrDefaultAsync();
 
-            var contactreasons = await _context.ContactReasons
-                .ToListAsync();
 
-            var contactmethods = await _context.ContactMethods
-                .ToListAsync();
             var staffs = await _context.Staffs
                 .ToListAsync();
 
-            ViewData["ContactMethod"] = new SelectList(contactmethods, "Method", "Method");
-            ViewData["ContactReasons"] = new SelectList(contactreasons, "Reason", "Reason");
+            var contactmethod = await _context.ContactMethods
+                .ToListAsync();
+            
+
+
+            var contactreason = await _context.ContactReasons
+                .ToListAsync();
+
+            
+
+            ViewData["ContactMethod"] = new SelectList(contactmethod, "Method", "Method");
+            ViewData["ContactReasons"] = new SelectList(contactreason, "Reason", "Reason");
             ViewData["AssignedTo"] = new SelectList(staffs, "FullName", "FullName");
             ViewData["Student"] = student;
             ViewData["Parent"] = parent;

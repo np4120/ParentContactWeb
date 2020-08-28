@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -34,7 +35,12 @@ namespace ParentContactWeb
             parents = parents.OrderBy(p => p.FamilyName);
 
             if (!String.IsNullOrEmpty(searchTerm))
+
+                
             {
+
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                searchTerm = textInfo.ToTitleCase(searchTerm);
                 parents = parents.Where(p => p.FamilyName.Contains(searchTerm));
             }
 

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParentContactWeb.Models
 {
-    [Table("ContactMethod")]
+    [Table("contactmethod")]
     public partial class ContactMethod
     {
         [Key]

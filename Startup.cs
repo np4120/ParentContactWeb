@@ -59,7 +59,7 @@ namespace ParentContactWeb
                 (options => options
                
                     .UseMySql(dbconn, mySqlOptions => mySqlOptions
-                    .ServerVersion(new Version(5, 7, 30), ServerType.MySql)
+                    .ServerVersion(new Version(5, 7, 12), ServerType.MySql)
                 ));
 
             

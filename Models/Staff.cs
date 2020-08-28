@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParentContactWeb.Models
 {
-    [Table("Staff")]
+    [Table("staff")]
     public partial class Staff
     {
         [Key]
