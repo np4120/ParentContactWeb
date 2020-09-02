@@ -40,16 +40,19 @@ namespace ParentContactWeb
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                
             })
-                    .AddCookie()
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/account/google-login";
+                    }
+                    )
                     .AddGoogle(options =>
                     {
-                        IConfigurationSection googleAuthNSection =
-                            Configuration.GetSection("Authentication:Google");
+                       
 
-                        options.ClientId = googleAuthNSection["ClientId"];
-                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                        options.ClientId = "600463607519-aerr024c2ekfsptqsgiqg5qopmjdkgiu.apps.googleusercontent.com";
+                        options.ClientSecret = "mCkvcmETv64yrnfAU5XsyD0B";
                     });
 
 
