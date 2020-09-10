@@ -11,6 +11,7 @@ using ParentContactWeb.models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ParentContactWeb
 {
@@ -37,6 +38,29 @@ namespace ParentContactWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+
+
+
+            services.AddControllersWithViews();
+
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+
+                options.ForwardedHeaders =
+                     ForwardedHeaders.XForwardedFor |
+                     ForwardedHeaders.XForwardedProto;
+
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+            }
+
+
+
+                );
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -56,9 +80,12 @@ namespace ParentContactWeb
                     });
 
 
-            services.AddControllersWithViews();
+           
 
-             services.AddDbContextPool<parentcontactdbContext>
+            
+
+            
+            services.AddDbContextPool<parentcontactdbContext>
                 (options => options
                
                     .UseMySql(dbconn, mySqlOptions => mySqlOptions
@@ -80,19 +107,25 @@ namespace ParentContactWeb
             {
                 app.UseDeveloperExceptionPage();
                 dbconn = Environment.GetEnvironmentVariable("ConnectionStrings__ParentContactDB");
-                
+                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
+                app.UseForwardedHeaders();
                 app.UseHsts();
             }
+
+          
+
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCertificateForwarding();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
