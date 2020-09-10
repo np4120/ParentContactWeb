@@ -10,13 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using ParentContactWeb.models;
 using ParentContactWeb.ViewModels;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ParentContactWeb.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
-    {  
+    {
         private readonly ILogger<HomeController> _logger;
         private readonly parentcontactdbContext _context;
        
@@ -27,7 +25,6 @@ namespace ParentContactWeb.Controllers
         }
 
         // GET: Students
-        [AllowAnonymous]
         public     IActionResult Index()
         {
 

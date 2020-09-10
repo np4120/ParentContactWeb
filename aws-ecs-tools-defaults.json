@@ -16,7 +16,7 @@
     "task-definition-task-role" : "arn:aws:iam::893646953647:role/ecs_execution_ParentContactWeb",
     "task-execution-role"       : "ecsTaskExecutionRole",
     "container-name"            : "ParentContactWeb",
-    "container-port-mapping"    : "80:80,443:443",
+    "container-port-mapping"    : "80:80",
     "container-environment-variables" : "\"ASPNETCORE_ENVIRONMENT\"=\"Production\";\"ConnectionStrings__ParentContactDB\"=\"Server=npsproddb2.cz9ggaz7qsra.us-east-1.rds.amazonaws.com;port=3306;user=npsadmin;password=Fdx35mNepnky3;database=parentcontactdb\"",
     "skip-image-push"                 : false,
     "cluster-service"                 : "ParentContactWeb",

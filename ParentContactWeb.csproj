@@ -25,8 +25,6 @@
     <Compile Remove="Migrations\20200624201320_contactlk.Designer.cs" />
     <Compile Remove="Migrations\20200625184018_test.cs" />
     <Compile Remove="Migrations\20200625184018_test.Designer.cs" />
-    <Compile Remove="Migrations\20200902175000_StaffEmail.cs" />
-    <Compile Remove="Migrations\20200902175000_StaffEmail.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

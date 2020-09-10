@@ -147,10 +147,6 @@ namespace ParentContactWeb.models
                 entity.Property(e => e.Title)
                     .HasCharSet("latin1")
                     .HasCollation("latin1_swedish_ci");
-                entity.Property(e => e.Email)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
-
             });
 
 

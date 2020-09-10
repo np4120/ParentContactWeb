@@ -28,8 +28,7 @@ namespace ParentContactWeb.Models
         public string LastName { get; set; }
         [Column(TypeName = "varchar(100)")]
         public string Title { get; set; }
-        [Column("email", TypeName = "varchar(50)")]
-        public string Email { get; set; }
+
 
 
     }
